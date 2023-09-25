@@ -15,7 +15,7 @@ export default function Home() {
       </Head>
       <BaseLayout>
         <main className="flex items-center justify-center h-[calc(100vh-66px)] flex-col px-6 py-4">
-          <h1 className="text-gray-100 text-8xl font-bold text-center">Organize. Manage. Trade.</h1>
+          <h1 className="text-gray-100 md:text-8xl text-5xl font-bold text-center">Organize. Manage. Trade.</h1>
           <div className="my-4"></div>
           <p className="text-gray-400 text-2xl max-w-4xl text-center">{"TCG Vault's services gives trading card game collectors the infrastructure that's needed to store and maintain their collectins and focilitate trades/sales."}</p>
           <div className="my-4"></div>
