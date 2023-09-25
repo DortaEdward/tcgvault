@@ -74,7 +74,7 @@ export default Navbar;
 
 function MobileMenu() {
   return (
-    <div className="absolute -bottom-[45rem] flex h-[calc(100vh-66px)] w-full bg-neutral-950 px-4 py-6 text-gray-100 md:hidden">
+    <div className="absolute top-[66px] flex h-[calc(100vh-66px)] w-full bg-neutral-950 px-4 py-6 text-gray-100 md:hidden">
       <ul className="flex w-full flex-col gap-2">
         <ul className="flex flex-col gap-3">
           <li>
