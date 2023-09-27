@@ -1,31 +1,26 @@
-import Navbar from "@/components/navbar";
-import type { GetServerSidePropsContext } from "next";
-import { getSession } from "next-auth/react";
+import AuthedLayout from "@/layouts/AuthedLayout";
 
-
-function Dashboard(){
-	return(
-		<>
-			<Navbar />
-		</>
-	)
+function Dashboard() {
+  return <AuthedLayout>
+    <p className="text-gray-100">Dashboard</p>
+  </AuthedLayout>;
 }
 
+export default Dashboard;
 
-export default Dashboard
-
-
-export async function getServerSideProps(ctx:GetServerSidePropsContext){
-	const session = await getSession(ctx)
-	if(!session){
-		return{
-			redirect:{
-				destination: "/",
-				permanent:false
-			}
-		}
-	}
-	return{
-		props:{}
-	}
+import type { GetServerSidePropsContext } from "next";
+import { getSession } from "next-auth/react";
+export async function getServerSideProps(ctx: GetServerSidePropsContext) {
+  const session = await getSession(ctx);
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: {},
+  };
 }

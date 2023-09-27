@@ -1,15 +1,15 @@
 import Link from "next/link";
-import { signOut, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { MdMenu, MdClose } from "react-icons/md";
-function Navbar() {
-  const { data: session } = useSession();
+
+function UnAuthNavbar() {
   const [open, setOpen] = useState<boolean>(false);
 
   return (
     <div className="sticky z-10 bg-transparent">
       {open ? <MobileMenu /> : <></>}
-      <header className="mx-auto flex items-center justify-between px-16 py-4 md:container">
+      <header className="mx-auto flex items-center justify-between px-6 py-4 md:container">
         <div>
           <p className="text-2xl font-medium text-gray-100">TCG Vault</p>
         </div>
@@ -31,25 +31,13 @@ function Navbar() {
             >
               Contact
             </Link>
-            {session?.user ? (
-              <>
-                <button
-                  onClick={() => signOut()}
-                  className="rounded-md border border-gray-700 px-3 py-1 text-gray-100 hover:bg-gray-100/10"
-                >
-                  Sign Out
-                </button>
-              </>
-            ) : (
-              <>
-                <button className="rounded-md border border-gray-700 px-3 py-1 text-gray-100 hover:bg-gray-100/10">
-                  Sign In
-                </button>
-                <button className="rounded-md bg-gray-100 px-3 py-1 text-black hover:bg-gray-300">
-                  Sign Up
-                </button>
-              </>
-            )}
+
+            <button className="rounded-md border border-gray-700 px-3 py-1 text-gray-100 hover:bg-gray-100/10">
+              Sign In
+            </button>
+            <button className="rounded-md bg-gray-100 px-3 py-1 text-black hover:bg-gray-300">
+              Sign Up
+            </button>
           </div>
         </nav>
         {open ? (
@@ -70,7 +58,7 @@ function Navbar() {
   );
 }
 
-export default Navbar;
+export default UnAuthNavbar;
 
 function MobileMenu() {
   return (
@@ -78,21 +66,27 @@ function MobileMenu() {
       <ul className="flex w-full flex-col gap-2">
         <ul className="flex flex-col gap-3">
           <li>
-            <button className="w-full rounded-md border border-gray-700 px-3 py-3 text-gray-100 hover:bg-gray-100/10">
+            <button
+              onClick={() => signIn()}
+              className="w-full rounded-md border border-gray-700 px-3 py-3 text-gray-100 hover:bg-gray-100/10"
+            >
               Sign In
             </button>
           </li>
           <li>
-            <button className="w-full rounded-md bg-gray-100 px-3 py-3 text-black hover:bg-gray-300">
+            <button
+              onClick={() => signIn()}
+              className="w-full rounded-md bg-gray-100 px-3 py-3 text-black hover:bg-gray-300"
+            >
               Sign Up
             </button>
           </li>
         </ul>
         <ul className="flex flex-col">
-          <li className="border-b py-4 border-gray-500 cursor-pointer hover:bg-white/5">
+          <li className="cursor-pointer border-b border-gray-500 py-4 hover:bg-white/5">
             <Link href={"/"}>Home</Link>
           </li>
-          <li className="border-b py-4 border-gray-500 cursor-pointer hover:bg-white/5">
+          <li className="cursor-pointer border-b border-gray-500 py-4 hover:bg-white/5">
             <Link href={"/"}>Contact</Link>
           </li>
         </ul>
