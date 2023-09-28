@@ -1,6 +1,6 @@
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { MdUnfoldMore, MdStorage } from "react-icons/md";
 import type { Dispatch, SetStateAction } from "react";
 import { useRouter } from "next/router";
@@ -9,8 +9,9 @@ import { useSearchParams } from "next/navigation";
 function AuthNavbar() {
   const { data: session } = useSession();
   const [openCollections, setOpenCollections] = useState<boolean>(false);
+
   const searchParams = useSearchParams();
-  const activeCollection = searchParams.get("collection")
+  const activeCollection = searchParams.get("collection");
 
   const router = useRouter();
 
@@ -38,6 +39,7 @@ function AuthNavbar() {
               <CollectionSelectionModal
                 activeCollection={activeCollection}
                 handleCollectionSelection={handleCollectionSelection}
+                setOpenCollections={setOpenCollections}
               />
             )}
           </div>
@@ -92,12 +94,28 @@ function CollectionSelection({
 function CollectionSelectionModal({
   activeCollection,
   handleCollectionSelection,
+  setOpenCollections,
 }: {
   activeCollection: string | null;
-  handleCollectionSelection: (value: string) => void
+  handleCollectionSelection: (value: string) => void;
+  setOpenCollections: (value: boolean) => void;
 }) {
+  const menuRef = useRef<HTMLDivElement>(null);
+  const [toggleDropdown, setToggleDropdown] = useState<boolean>(false);
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (menuRef?.current === null) return;
+      if (!(e.target instanceof HTMLElement) || !menuRef.current.contains(e.target)) {
+          setOpenCollections(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    document.addEventListener("scroll", () => {
+      setOpenCollections(false);
+    })
+  }, []);
   return (
-    <div className="absolute top-10 flex w-full flex-col justify-center rounded border bg-neutral-950">
+    <div ref={menuRef} className="absolute top-10 flex w-full flex-col justify-center rounded border bg-neutral-950">
       <div className="border-b p-2">
         <p className="">Search</p>
       </div>
@@ -112,10 +130,8 @@ function CollectionSelectionModal({
               <MdStorage />
               <p>Modal</p>
             </div>
-            {activeCollection ? (
+            {activeCollection === "name" && (
               <div className="text-gray-100">Checked</div>
-            ) : (
-              <></>
             )}
           </div>
           <p>Modal</p>
